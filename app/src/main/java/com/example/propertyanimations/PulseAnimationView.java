@@ -47,22 +47,34 @@ public class PulseAnimationView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
+        /*
+        Settings for growing animation
+         */
         ObjectAnimator growAnimator = ObjectAnimator.ofFloat(this, "radius", 0, getWidth());
         growAnimator.setDuration(ANIMATION_DURATION);
         growAnimator.setInterpolator(new LinearInterpolator());
 
         ObjectAnimator shrinkAnimator = ObjectAnimator.ofFloat(this, "radius", getWidth(), 0);
 
+        /*
+        Settings for shrinking animation
+         */
         shrinkAnimator.setDuration(ANIMATION_DURATION);
         shrinkAnimator.setInterpolator(new LinearOutSlowInInterpolator());
         shrinkAnimator.setStartDelay(ANIMATION_DELAY);
 
+        /*
+        Settings for repeating animation
+         */
         ObjectAnimator repeatAnimator = ObjectAnimator.ofFloat(this, "radius", 0, getWidth());
         repeatAnimator.setStartDelay(ANIMATION_DELAY);
         repeatAnimator.setDuration(ANIMATION_DURATION);
         repeatAnimator.setRepeatCount(1);
         repeatAnimator.setRepeatMode(ValueAnimator.REVERSE);
 
+        /*
+        Animation order
+         */
         mPulseAnimatorSet.play(growAnimator).before(shrinkAnimator);
         mPulseAnimatorSet.play(repeatAnimator).after(shrinkAnimator);
     }
